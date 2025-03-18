@@ -7,7 +7,7 @@ import pandas as pd
 app = Flask(__name__)
 
 # 🔹 URL of the trained model stored in GitHub
-MODEL_URL = "https://raw.githubusercontent.com/yourusername/phishing-api/main/optimized_phishing_model.pkl"
+MODEL_URL = "https://raw.githubusercontent.com/iamhabeebi/phishing/main/optimized_phishing_model.pkl"
 
 # 🔹 Download the model from GitHub if not already present
 if not os.path.exists("optimized_phishing_model.pkl"):
