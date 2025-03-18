@@ -6,22 +6,31 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# 🔹 URL of the trained model stored in GitHub
-MODEL_URL = "https://raw.githubusercontent.com/iamhabeebi/phishing/main/optimized_phishing_model.pkl"
+# 🔹 Replace this with your actual Google Drive file ID
+FILE_ID = "https://drive.google.com/file/d/1-1hri-ZGccoVzjc2te46rZ0ypPtzkQFj/view?usp=sharing"
+MODEL_PATH = "optimized_phishing_model.pkl"
 
-# 🔹 Download the model from GitHub if not already present
-if not os.path.exists("optimized_phishing_model.pkl"):
-    print("Downloading model...")
-    response = requests.get(MODEL_URL)
-    with open("optimized_phishing_model.pkl", "wb") as f:
-        f.write(response.content)
-    print("✅ Model downloaded!")
+# 🔹 Function to download the model from Google Drive
+def download_model():
+    if not os.path.exists(MODEL_PATH):
+        print("Downloading model from Google Drive...")
+        URL = f"https://drive.google.com/uc?export=download&id={FILE_ID}"
+        response = requests.get(URL, stream=True)
+
+        with open(MODEL_PATH, "wb") as file:
+            for chunk in response.iter_content(1024):
+                file.write(chunk)
+
+        print("✅ Model downloaded!")
+
+# 🔹 Download model before starting the API
+download_model()
 
 # 🔹 Load the trained model
-model = joblib.load("optimized_phishing_model.pkl")
+model = joblib.load(MODEL_PATH)
 print("✅ Model loaded successfully!")
 
-# 🔹 Feature extraction function (modify based on your actual function)
+# 🔹 Dummy feature extraction function (replace with real logic)
 def extract_features(url):
     return {
         "url_length": len(url),
